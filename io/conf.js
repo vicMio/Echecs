@@ -1,3 +1,6 @@
+//fichier de configuration coté serveur
+
+
 import io from 'socket.io-client';
 
 const socket = io('http://localhost');

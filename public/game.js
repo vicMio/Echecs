@@ -1,4 +1,4 @@
-
+//fichier de jeu
 
 var socket = io.connect('http://localhost:8080');
 
@@ -7,6 +7,7 @@ let players = [];
 var canvas  = document.querySelector('#canvas');
 var context = canvas.getContext('2d');
 
+//draw le pattern associe au joueur qui joue (un lion ou une croix pour le moment)
 function drawCoup(){
   players.forEach(function({couleur, abs, ord, casePlateau, plateau}) {
     if (abs != -1 && ord != -1 && casePlateau != -1 && plateau[casePlateau] == 0){
@@ -36,7 +37,7 @@ function getCoords(el,event) {
 }
 
 
-
+//indique ou va devoir etre trace le pattern du joueur, selon l endroit ou le joueur a clique
 canvas.onclick = function(e) {
   var coords = getCoords(this,e);
   x = coords.x;
@@ -92,16 +93,12 @@ canvas.onclick = function(e) {
 
 
 
-
+//jeu
 function update() {
   drawCoup();                       // 2.
   requestAnimationFrame(update);                    // 3.
 }
 
 
-
-
-
-
-// first call
+// premier appel
 requestAnimationFrame(update);
