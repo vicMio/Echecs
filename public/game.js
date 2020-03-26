@@ -1,10 +1,19 @@
 
 
 
-
+const coordonnes = {} ;
+const clic = [] ;
 const player = {
   pseudo: "eriot",
-  couleur: "yellow",
+  couleur: "grey",
+
+  
+
+
+
+
+
+
   pion1X: 0,
   pion2X: 80,
   pion3X: 160,
@@ -40,6 +49,17 @@ const player = {
   fouDY: 560,
   cavalierDY: 560,
   tourDY: 560,
+
+  A1: "tourG",
+  A2: "cavalierG",
+  A3: "fouG",
+  B1: "pion1",
+  B2: "pion2",
+  B3: "pion3",
+  C1: "",
+  C2: "",
+  C3: "",
+  D1: "",
 };
 
 var canvas  = document.querySelector('#canvas');
@@ -52,49 +72,57 @@ function drawPlayers() {
   var pion1 = new Image();
   pion1.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion1.addEventListener('load', function() {
-        context.drawImage(pion1, pion1X, pion1Y);
+      context.drawImage(pion1, pion1X, pion1Y);
+      coordonnes["pion1"] = [pion1X, pion1Y];
     });
 
   var pion2 = new Image();
   pion2.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion2.addEventListener('load', function() {
-        context.drawImage(pion2, pion2X, pion2Y);
+      context.drawImage(pion2, pion2X, pion2Y);
+      coordonnes["pion2"] = [pion2X, pion2Y];
     });
 
   var pion3 = new Image();
   pion3.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion3.addEventListener('load', function() {
-        context.drawImage(pion3, pion3X, pion3Y);
+      context.drawImage(pion3, pion3X, pion3Y);
+      coordonnes["pion3"] = [pion3X, pion3Y];
     });
 
   var pion4 = new Image();
   pion4.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion4.addEventListener('load', function() {
-        context.drawImage(pion4, pion4X, pion4Y);
+      context.drawImage(pion4, pion4X, pion4Y);
+      coordonnes["pion4"] = [pion4X, pion4Y];
     });
 
   var pion5 = new Image();
   pion5.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion5.addEventListener('load', function() {
-        context.drawImage(pion5, pion5X, pion5Y);
+      context.drawImage(pion5, pion5X, pion5Y);
+      coordonnes["pion5"] = [pion5X, pion5Y];
     });
 
   var pion6 = new Image();
   pion6.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion6.addEventListener('load', function() {
-  context.drawImage(pion6, pion6X, pion6Y);
+      context.drawImage(pion6, pion6X, pion6Y);
+      coordonnes["pion6"] = [pion6X, pion6Y];
   });
 
   var pion7 = new Image();
   pion7.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion7.addEventListener('load', function() {
-  context.drawImage(pion7, pion7X, pion7Y);
+      context.drawImage(pion7, pion7X, pion7Y);
+      coordonnes["pion7"] = [pion7X, pion7Y];
   });
 
   var pion8 = new Image();
   pion8.src = 'pionNoir.png'; // Image de 80x80 pixels
   pion8.addEventListener('load', function() {
-  context.drawImage(pion8, pion8X, pion8Y);
+      context.drawImage(pion8, pion8X, pion8Y);
+      coordonnes["pion8"] = [pion8X, pion8Y];
   });
 
   var tourG = new Image();
@@ -152,10 +180,153 @@ function update() {
   requestAnimationFrame(update);                    // 3.
 }
 
-const elementX = -1 ;
-const elementY = -1 ;
 
-window.onclick = function(e) {
+function getCoords(el,event) {
+  var ox = el.scrollLeft - el.offsetLeft,
+  oy = el.scrollTop - el.offsetTop;
+  while(el=el.offsetParent){
+    ox += el.scrollLeft - el.offsetLeft;
+    oy += el.scrollTop - el.offsetTop;
+  }
+  return {x:event.clientX + ox , y:event.clientY + oy};
+}
+
+
+// Exemple d'utilisation :
+
+var canvas  = document.querySelector('#canvas');
+canvas.onclick = function(e) {
+
+  var context = canvas.getContext('2d');
+  var coords = getCoords(this,e);
+  const {A1, A2, A3, B1, C1, D1} = player;
+  var piece ="";
+
+  x = coords.x;
+  y = coords.y;
+
+  if (0 <= x && x< 80){
+    if (480<= y && y<560){ //B1
+      context.fillStyle = "yellow";
+      context.beginPath();
+      context.rect(0, 480, 80, 80);
+      context.fill();
+      if (A1 != ""){
+
+      }
+
+    }
+    else if(560<= y && y< 640){ //A1
+      context.fillStyle = "green";
+      context.beginPath();
+      context.rect(0,560, 80,80);
+      context.fill();
+    }
+    else{ //colonne 1
+      context.fillStyle = "pink";
+      context.beginPath();
+      context.rect(0, y, 80,80);
+      context.fill();
+    }
+  }
+  else if(80 <= x && x< 160){
+    if (480<= y && y<560){
+      context.fillStyle = "yellow";
+      context.beginPath();
+      context.rect(x, y, 80, 80);
+      context.fill();
+    }
+    else if(560<= y && y< 640){
+      context.fillStyle = "green";
+      context.beginPath();
+      context.rect(x, y, 80,80);
+      context.fill();
+    }
+    else{
+      context.fillStyle = "pink";
+      context.beginPath();
+      context.rect(x, y, 80,80);
+      context.fill();
+    }
+  }
+  else if(160 <= x && x< 240){
+    if (480<= y <560){
+
+    }
+    else if(560<= y < 640){
+
+    }
+    else{
+
+    }
+  }
+  else if(240 <= x && x< 320){
+    if (480<= y <560){
+
+    }
+    else if(560<= y < 640){
+
+    }
+    else{
+
+    }
+  }
+  else if(320 <= x && x< 400){
+    if (480<= y <560){
+
+    }
+    else if(560<= y < 640){
+
+    }
+    else{
+
+    }
+  }
+  else if(400 <= x && x< 480){
+    if (480<= y <560){
+
+    }
+    else if(560<= y < 640){
+
+    }
+    else{
+
+    }
+  }
+  else if(480 <= x && x< 560){
+    if (480<= y <560){
+
+    }
+    else if(560<= y < 640){
+
+    }
+    else{
+
+    }
+  }
+  else if(560 <= x && x< 640){
+    if (480<= y <560){
+
+    }
+    else if(560<= y < 640){
+
+    }
+    else{
+
+    }
+  }
+  else{
+    if (480<= y <560){
+
+    }
+    else if(560<= y < 640){
+
+    }
+    else{
+
+    }
+  }
+
 
 };
 
@@ -163,8 +334,10 @@ window.onclick = function(e) {
 
 
 
+
+
 function moveElement() {
-  
+
 }
 
 
