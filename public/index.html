@@ -15,12 +15,18 @@
             width="600"
             height="600"><p>Désolé, votre navigateur ne supporte pas Canvas. Mettez-vous à jour</p>
             <script src="./plateau.js"></script>
-
-
     </canvas>
 
-    <script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script>
+      var pseudo = prompt('Quel est votre pseudo ?');
+      socket.emit('nouveau', pseudo);
+      var couleur = prompt('lion ou croix ?');
+      socket.emit('couleur', couleur);
+    </script>
     <script src="./game.js"></script>
+
 </body>
 
 </html>
