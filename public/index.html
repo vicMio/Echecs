@@ -3,30 +3,86 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Morpion Centrale JV</title>
+    <title>Morpion VJ</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        canvas { margin: auto; display: block; border: 1px solid grey; }
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #chat { height: calc(100% - 64px); margin:0; padding: 0; overflow: auto; list-style-type: none; }
+        #chat li { padding: 1em; }
+        #chat li:nth-child(odd) { background: #eee; }
+
+     	* {
+  			box-sizing: border-box;
+		}
+
+		.row:after {
+  			content: "";
+  			display: table;
+  			clear: both;
+		}
+
+		.left {
+			width: 60%;
+		}
+
+		.right {
+			width: 40%;
+		}
+
+		/* Create two equal columns that sits next to each other */
+		/* Create two unequal columns that floats next to each other */
+		.column {
+  			float: left;
+  			padding: 100px;
+  			height: 900px;
+		}
     </style>
 </head>
 
 <body>
-    <!-- Plateau de jeu -->
-    <canvas id="canvas"
-            width="600"
-            height="600"><p>Désolé, votre navigateur n'aime pas Canvas. Mettez-vous à jour</p>
-            <script src="./plateau.js"></script>
-    </canvas>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
-    <!-- Jeu -->
+    <script>const socket = io();</script>
+
     <script>
-      var pseudo = prompt('Quel est votre pseudo ?');
-      socket.emit('nouveau', pseudo);
-      var couleur = prompt('lion ou croix ?');
-      socket.emit('couleur', couleur);
+      var pseudo = prompt('Quel est votre pseudo ?', 'Joueur');
+      var couleur = prompt('lion ou croix ?', 'croix');
+      socket.emit('nouveau_joueur', [pseudo,couleur]);
     </script>
-    <script src="./game.js"></script>
+
+	<div class="row">
+		<div class="column left" style="background-color:#fff;">
+    		<canvas id="canvas"
+            		width=200
+            		height=200><p>Désolé, votre navigateur n'aime pas Canvas. Mettez-vous à jour</p>
+            <script src="./plateau.js"></script>
+            <script src="./game.js"></script>
+    		</canvas>
+  		</div>
+  		<div class="column right" style="background-color:#bbb;">
+		    <!-- Chat -->
+		    <ul id="chat"></ul>
+
+		    <!-- Send a message -->
+		    <form id="send" action="" autocomplete="off">
+		        <div class="input-group p-2">
+		            <input id="message"
+		                   class="form-control form-control-lg"
+		                   type="text"
+		                   placeholder="Envoyer un message">
+		            <div class="input-group-append">
+		                <button class="btn btn-lg btn-primary" type="submit">
+		                    Envoyer
+		                </button>
+		            </div>
+		        </div>
+		    </form>
+		    <script src="/chat.js"></script>
+		</div>
+	</div>
+
+
 
 </body>
 

@@ -1,15 +1,23 @@
 //fichier de jeu
 
-var socket = io.connect('http://localhost:8080');
-
-let players = [];
-
 var canvas  = document.querySelector('#canvas');
 var context = canvas.getContext('2d');
 
+var width = canvas.width;
+var height = canvas.height;
+
+var side = 1/3 * width
+
+let players = [];
+
+
+socket.on('players_list', function(list) {
+  players = list;
+});
+
 //draw le pattern associe au joueur qui joue (un lion ou une croix pour le moment)
 function drawCoup(){
-  players.forEach(function({couleur, abs, ord, casePlateau, plateau}) {
+  players.forEach(function({c, abs, ord, casePlateau, plateau}) {
     if (abs != -1 && ord != -1 && casePlateau != -1 && plateau[casePlateau] == 0){
     var coup = new Image();
     coup.src = couleur+'.jpeg'; // Image de 80x80 pixels
@@ -20,9 +28,7 @@ function drawCoup(){
   });
 }
 
-socket.on('players list', function(list) {
-  players = list;
-});
+
 
 
 //recup les coordonnees de la souris dans le canva
@@ -43,48 +49,50 @@ canvas.onclick = function(e) {
   x = coords.x;
   y = coords.y;
 
-  if (0 <= x && x< 200){
-    if (0<= y && y<200){ //B1
+
+
+  if (0 <= x && x< side){
+    if (0<= y && y<side){ //B1
       socket.emit('caseCom',[0, 0, 0]);
 
     }
-    else if(200<= y && y< 400){ //A1
-      socket.emit('caseCom',[0, 200, 1]);
+    else if(side<= y && y< 2*side){ //A1
+      socket.emit('caseCom',[0, side, 1]);
 
     }
     else{ //colonne 1
-      socket.emit('caseCom', [0, 400, 2]);
+      socket.emit('caseCom', [0, 2*side, 2]);
 
     }
   }
-  else if(200 <= x && x< 400){
-    if (0<= y && y<200){ //B1
-      socket.emit('caseCom',[200, 0, 3]);
+  else if(side <= x && x< 2*side){
+    if (0<= y && y<side){ //B1
+      socket.emit('caseCom',[side, 0, 3]);
 
     }
-    else if(200<= y && y< 400){ //A1
-      socket.emit('caseCom',[200, 200, 4]);
-      //player.abs = 200;
-    //  player.ord = 200;
+    else if(side<= y && y< 2*side){ //A1
+      socket.emit('caseCom',[side, side, 4]);
+      //player.abs = side;
+    //  player.ord = side;
       //player.casePlateau = 4;
       //player.Plateau[player.casePlateau] = 1;
     }
     else{ //colonne 1
-      socket.emit('caseCom', [200, 400, 5]);
+      socket.emit('caseCom', [side, 2*side, 5]);
 
     }
   }
   else{
-    if (0<= y && y<200){ //B1
-      socket.emit('caseCom',[400, 0, 6]);
+    if (0<= y && y<side){ //B1
+      socket.emit('caseCom',[2*side, 0, 6]);
 
     }
-    else if(200<= y && y< 400){ //A1
-      socket.emit('caseCom', [400, 200, 7]);
+    else if(side<= y && y< 2*side){ //A1
+      socket.emit('caseCom', [2*side, side, 7]);
 
     }
     else{ //colonne 1
-      socket.emit('caseCom',[400, 400, 8]);
+      socket.emit('caseCom',[2*side, 2*side, 8]);
 
     }
   }
